@@ -2,6 +2,10 @@
 arr: 12, 255, 200, 150, 50, 33, 133, 100, 17, 15, 33, 188, 0, 10, 12, 40, 201, 7, 9, 10
 aux: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 ord: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+salto: 	 .asciiz "\n"
+espacio: .asciiz " "
+ordenado: .asciiz "El arreglo ordenado:\n"
+original: .asciiz "El arreglo original:\n"
 
 .text
 la $s0, arr 		# carga la direccion de la primer posicion de arr en $s0
@@ -46,4 +50,38 @@ addi $s2, $s2, 4	# "avanza una posicion" en el arreglo ordenado.
 addi $t6, $t6, 1	# suma uno en el contador.
 bne $t6, 20, ordenador	# si el contador != salta a ordenador.
 
+# impresiones en consola
 
+li $v0, 4		# indicamos que vamos a imprimir un string
+la $a0, original	# indicamos la direccion del string en el registro para imprimir.
+syscall			# hacemos el syscall para imprimir el string.
+
+la $t6, arr		# direccion en memoria del arreglo.
+li $t0, 0		# contador en 0.
+jal printarr		# salta a printarr y guarda la direccion.
+
+li $v0, 4		# indicamos que vamos a imprimir un string.
+la $a0, ordenado	# indicamos la direccion del string a imprimir.
+syscall			# hacemos el syscall para imprimir el string.
+
+la $t6, ord		# dirreccion de memoria del arreglo.
+li $t0, 0		# contador 0.
+jal printarr		# salta a printarr y guarda la direccion.
+j fin			# salta a fin.
+
+printarr:
+li $v0, 1		# indicamos para imprimir en 1.
+lw $a0, 0($t6)		# indicamos el primer valor de la direccion para que sea impreso.
+syscall			# imprimimos el valor.
+li $v0, 4		# indicamos que vamos a imprimir un string
+la $a0, espacio		# indicamos que vamos a imprmir un espacio.
+syscall			# hacemos el syscall para imprimir.
+addi $t6, $t6, 4	# sumamos 4 a la direccion.
+addi $t0, $t0, 1	# sumamos uno al contador.
+bne $t0, 20, printarr	# si contador no es igual a 20 ir a printarr.
+li $v0, 4		# indicar que se quiere imprimir un string.
+la $a0, salto		# indicar que se va a imprimir un salto de linea.
+syscall			# indicamos que vamos a imprimir un string.
+jr $ra			# salta a la direccion guardada en $ra.
+
+fin:
