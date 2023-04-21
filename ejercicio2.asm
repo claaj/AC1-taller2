@@ -21,7 +21,7 @@ jal printNum			# Saltamos a la etiqueta printNum, se guarda la direccion actual 
 j fin				# Saltamos a la etiqueta fin
   
 fact:
-subi $sp, $sp, 8		# Se "retrocede" el stack pointer para almacenar en el stack dos valores de 4 bits.
+subi $sp, $sp, 8		# Se "retrocede" el stack pointer para almacenar en el stack dos valores de 4 bytes.
 sw $ra, 4($sp)			# Guardamos en el stack el contenido de $ra en desde el bit 4 en adelante.
 sw $s0, 0($sp)			# Guardamos en el stack el contenido de $s0 en desde el bit 0 en adelante.
 bge $s0, 1, calcular		# Si $s0 >= 1, salta a calcular.
