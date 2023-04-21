@@ -29,14 +29,25 @@ sw $t2, 0($t7)		# guardamos el maximo en la direccion anterior al primer element
 
 # impresiones en consola
 
-li $v0, 4		# indicamos que vamos a imprimir un string
+
 la $a0, strarr		# indicamos la direccion del string en el registro para imprimir.
-syscall			# hacemos el syscall para imprimir el string.
+jal printStr		# Saltamos a printStr
 
 la $t6, arr		# direccion en memoria del arreglo.
 li $t0, 0		# contador en 0.
+jal printArr		# Saltamos a printArr
 
-printarr:
+la $a0, salto		# indicar que se va a imprimir un salto de linea.
+jal printStr		# Saltamos a printStr
+
+la $a0, strmax		# indicamos la direccion del string en el registro para imprimir
+jal printStr 
+
+addi $a0, $t2, 0	# ponemos en el registro el valor que se quiere imprimir, este caso el maximo($t2)
+jal printNum		# Saltamos a printNum
+j fin			# Saltamos a fin.
+
+printArr:
 li $v0, 1		# indicamos para imprimir en 1.
 lw $a0, 0($t6)		# indicamos el primer valor de la direccion para que sea impreso.
 syscall			# imprimimos el valor.
@@ -45,15 +56,17 @@ la $a0, espacio		# indicamos que vamos a imprmir un espacio.
 syscall			# hacemos el syscall para imprimir.
 addi $t6, $t6, 4	# sumamos 4 a la direccion.
 addi $t0, $t0, 1	# sumamos uno al contador.
-bne $t0, 20, printarr	# si contador no es igual a 20 ir a printarr.
+bne $t0, 20, printArr	# si contador no es igual a 20 ir a printarr.
+jr $ra			# Salta a la direccion en $ra.
 
-li $v0, 4		# indicar que se quiere imprimir un string.
-la $a0, salto		# indicar que se va a imprimir un salto de linea.
-syscall			# indicamos que vamos a imprimir un string
+printStr:
+li $v0, 4			# Indicamos que se va a imprimir un String.
+syscall				# Se realiza el syscall.
+jr $ra				# Se salta a la direccion en $ra.
 
-la $a0, strmax		# indicamos la direccion del string en el registro para imprimir
-syscall			# hacemos el syscall para imprimir el string. 
+printNum:
+li $v0, 1			# Indicamos que se imprime un numero.
+syscall				# Se realiza el syscall.
+jr $ra				# Salta a la direccion guardada en $ra.
 
-li $v0, 1		# indicamos que vamos a imprimir un entero.
-addi $a0, $t2, 0	# ponemos en el registro el valor que se quiere imprimir, este caso el maximo($t2)
-syscall			# hacemos el syscall para imprimir el entero.
+fin:
