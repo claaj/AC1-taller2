@@ -1,7 +1,7 @@
 .data
-numero: .word 5
-imp:	.asciiz "Factorial de "
-dosP:	.asciiz ": "
+	numero: .word 5
+	imp:	.asciiz "Factorial de "
+	dosP:	.asciiz ": "
 
 .text
 main:
