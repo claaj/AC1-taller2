@@ -5,7 +5,7 @@
   authors: (
     "Cajal Matías", "Levin Nicolas", "Zuñigas Cesar"
   ),
-  uni: "Universidad de Río Negro",
+  uni: "Universidad Nacional de Río Negro",
   asign: "Arquitectura de Computadoras I",
   date: "28 de abril de 2023",
 )
